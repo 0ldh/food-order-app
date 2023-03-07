@@ -1,7 +1,11 @@
 import React from 'react';
 import style from './Card.module.css';
 
-function Card({ children }: { children: React.ReactNode }) {
+interface CardProps {
+  children: React.ReactNode;
+}
+
+function Card({ children }: CardProps) {
   return (
     <div className={style.card}>
       {children}
