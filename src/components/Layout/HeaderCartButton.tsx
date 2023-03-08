@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import CartContext, { Cart } from '../../context/CartContext';
 import CartIcon from '../Cart/CartIcon';
 import style from './HeaderCartButton.module.css';
 
@@ -7,6 +8,8 @@ interface HeaderCartButtonProps {
 }
 
 function HeaderCartButton({ onShowCart }: HeaderCartButtonProps) {
+  const cartCount = useContext<Cart>(CartContext).items.length;
+
   return (
     <button type="button" className={style.button} onClick={onShowCart}>
       <span className={style.icon}>
@@ -14,7 +17,7 @@ function HeaderCartButton({ onShowCart }: HeaderCartButtonProps) {
       </span>
       <span>Your Cart</span>
       <span className={style.badge}>
-        3
+        {cartCount}
       </span>
     </button>
   );

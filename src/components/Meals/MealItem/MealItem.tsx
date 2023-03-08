@@ -2,7 +2,7 @@ import React from 'react';
 import style from './MealItem.module.css';
 import MealItemFrom from './MealItemForm';
 
-interface MealItemProps {
+export interface MealItemProps {
   id: string;
   name: string;
   description: string;
