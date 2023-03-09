@@ -4,7 +4,7 @@ import style from './MealItemForm.module.css';
 
 function MealItemFrom({ id }: { id: string }) {
   return (
-    <form className={style.form}>
+    <form className={style.form} aria-label="form">
       <Input
         key={id}
         label="Amount"
