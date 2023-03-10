@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './MealItem.module.css';
+import styles from './MealItem.module.css';
 import MealItemFrom from './MealItemForm';
 
 export interface MealItemProps {
@@ -15,11 +15,11 @@ function MealItem({
   const mealPrice = price.toFixed(2);
 
   return (
-    <li className={style.meal}>
+    <li className={styles.meal}>
       <div>
         <h3>{name}</h3>
-        <div className={style.description}>{description}</div>
-        <div className={style.price}>{`$${mealPrice}`}</div>
+        <div className={styles.description}>{description}</div>
+        <div className={styles.price}>{`$${mealPrice}`}</div>
       </div>
       <div>
         <MealItemFrom id={id} />

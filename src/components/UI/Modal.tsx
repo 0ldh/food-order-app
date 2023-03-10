@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import style from './Modal.module.css';
+import styles from './Modal.module.css';
 
 interface ModalProps {
   onHideCart: () => void;
@@ -12,14 +12,14 @@ const portalElement = document.getElementById('overlays') as HTMLDivElement;
 function Backdrop({ onHideCart }: { onHideCart: () => void }) {
   const tabIndex = 3;
   return (
-    <div className={style.backdrop} onClick={onHideCart} tabIndex={tabIndex} onKeyDown={onHideCart} role="button" aria-label="CloseCart" />
+    <div className={styles.backdrop} onClick={onHideCart} tabIndex={tabIndex} onKeyDown={onHideCart} role="button" aria-label="CloseCart" />
   );
 }
 
 function ModalOverlay({ children }: { children: React.ReactNode }) {
   return (
-    <div className={style.modal}>
-      <div className={style.content}>{children}</div>
+    <div className={styles.modal}>
+      <div className={styles.content}>{children}</div>
     </div>
   );
 }
