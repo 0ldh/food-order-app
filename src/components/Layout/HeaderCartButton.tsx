@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import CartContext, { Cart } from '../../context/CartContext';
+import React, { useContext, useMemo } from 'react';
+import CartContext from '../../context/CartContext';
 import CartIcon from '../Cart/CartIcon';
 import style from './HeaderCartButton.module.css';
 
@@ -8,7 +8,8 @@ interface HeaderCartButtonProps {
 }
 
 function HeaderCartButton({ onShowCart }: HeaderCartButtonProps) {
-  const cartCount = useContext<Cart>(CartContext).items.length;
+  const { items } = useContext(CartContext);
+  const cartCount = useMemo(() => items.length, [items.length]);
 
   return (
     <button type="button" className={style.button} onClick={onShowCart}>

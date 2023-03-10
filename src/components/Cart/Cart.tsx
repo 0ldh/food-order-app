@@ -6,24 +6,35 @@ interface CartProps {
   onHideCart: () => void;
 }
 
+const cartItem = {
+  id: 'c1',
+  name: 'sushi',
+  price: 12.99,
+};
+
 function Cart({ onHideCart }: CartProps) {
-  const cartItem = [{
-    id: 'c1',
-    name: 'sushi',
-    price: 12.99,
-  }].map((item) => <li>{item.name}</li>);
-  const cartItems = <ul className={style['cart-items']}>{cartItem}</ul>;
+  const cartItems = (
+    <ul className={style['cart-items']}>
+      <li>{cartItem.name}</li>
+    </ul>
+  );
+
+  const totalAmount = 35.62;
 
   return (
     <Modal onHideCart={onHideCart}>
       {cartItems}
       <div className={style.total}>
         <span>Total Amount</span>
-        <span>35.62</span>
+        <span>{totalAmount}</span>
       </div>
       <div className={style.actions}>
-        <button type="button" className={style['button--alt']} onClick={onHideCart}>Close</button>
-        <button type="button" className={style.button}>Order</button>
+        <button type="button" className={style['button--alt']} onClick={onHideCart}>
+          Close
+        </button>
+        <button type="button" className={style.button}>
+          Order
+        </button>
       </div>
     </Modal>
   );

@@ -1,25 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import style from './Modal.module.css';
+import styles from './Modal.module.css';
 
 interface ModalProps {
   onHideCart: () => void;
   children: React.ReactNode;
 }
 
-const portalElement = document.getElementById('overlays');
+const PortalElement = document.getElementById('overlays');
 
 function Backdrop({ onHideCart }: { onHideCart: () => void }) {
-  const tabIndex = 3;
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Escape') {
+      onHideCart();
+    }
+  };
+
   return (
-    <div className={style.backdrop} onClick={onHideCart} tabIndex={tabIndex} onKeyDown={onHideCart} role="button" aria-hidden />
+    <div className={styles.backdrop} onClick={onHideCart} onKeyDown={handleKeyDown} tabIndex={-1} role="button" aria-label="Close" />
   );
 }
 
 function ModalOverlay({ children }: { children: React.ReactNode }) {
   return (
-    <div className={style.modal}>
-      <div className={style.content}>{children}</div>
+    <div className={styles.modal}>
+      <div className={styles.content}>{children}</div>
     </div>
   );
 }
@@ -27,8 +32,8 @@ function ModalOverlay({ children }: { children: React.ReactNode }) {
 function Modal({ onHideCart, children }: ModalProps) {
   return (
     <>
-      {portalElement && ReactDOM.createPortal(<Backdrop onHideCart={onHideCart} />, portalElement)}
-      {portalElement && ReactDOM.createPortal(<ModalOverlay>{children}</ModalOverlay>, portalElement)}
+      {PortalElement && ReactDOM.createPortal(<Backdrop onHideCart={onHideCart} />, PortalElement)}
+      {PortalElement && ReactDOM.createPortal(<ModalOverlay>{children}</ModalOverlay>, PortalElement)}
     </>
   );
 }

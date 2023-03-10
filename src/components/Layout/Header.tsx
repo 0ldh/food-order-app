@@ -1,9 +1,7 @@
-import React, { useContext } from 'react';
-
+import React from 'react';
 import style from './Header.module.css';
 import meals from '../../assets/meals.jpg';
 import HeaderCartButton from './HeaderCartButton';
-import CartContext, { Cart } from '../../context/CartContext';
 
 interface HeaderCartProps {
   onShowCart: () => void;
