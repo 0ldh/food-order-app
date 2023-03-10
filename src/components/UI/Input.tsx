@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import style from './Input.module.css';
+import styles from './Input.module.css';
 
 interface InputProps {
   label: string;
@@ -9,7 +9,7 @@ interface InputProps {
 
 function Input({ label, input }: InputProps) {
   return (
-    <div className={style.input}>
+    <div className={styles.input}>
       <label htmlFor={input.id}>{label}</label>
       <input {...input} />
     </div>

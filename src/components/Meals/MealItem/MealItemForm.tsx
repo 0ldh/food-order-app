@@ -1,10 +1,10 @@
 import React from 'react';
 import Input from '../../UI/Input';
-import style from './MealItemForm.module.css';
+import styles from './MealItemForm.module.css';
 
 function MealItemFrom({ id }: { id: string }) {
   return (
-    <form className={style.form}>
+    <form className={styles.form}>
       <Input
         key={id}
         label="Amount"
