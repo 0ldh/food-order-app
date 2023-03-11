@@ -7,7 +7,7 @@ interface ModalProps {
   children: React.ReactNode;
 }
 
-const portalElement = document.getElementById('overlays') as HTMLDivElement;
+const portalElement = document.getElementById('overlays');
 
 function Backdrop({ onHideCart }: { onHideCart: () => void }) {
   const tabIndex = 3;
@@ -27,8 +27,8 @@ function ModalOverlay({ children }: { children: React.ReactNode }) {
 function Modal({ onHideCart, children }: ModalProps) {
   return (
     <>
-      {ReactDOM.createPortal(<Backdrop onHideCart={onHideCart} />, portalElement)}
-      {ReactDOM.createPortal(<ModalOverlay>{children}</ModalOverlay>, portalElement)}
+      {portalElement && ReactDOM.createPortal(<Backdrop onHideCart={onHideCart} />, portalElement)}
+      {portalElement && ReactDOM.createPortal(<ModalOverlay>{children}</ModalOverlay>, portalElement)}
     </>
   );
 }

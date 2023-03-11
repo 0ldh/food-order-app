@@ -13,6 +13,12 @@ function MealItem({
   id, name, description, price,
 }: MealItemProps) {
   const mealPrice = price.toFixed(2);
+  const mealItem = {
+    id,
+    name,
+    description,
+    price,
+  };
 
   return (
     <li className={styles.meal}>
@@ -22,7 +28,7 @@ function MealItem({
         <div className={styles.price}>{`$${mealPrice}`}</div>
       </div>
       <div>
-        <MealItemFrom id={id} />
+        <MealItemFrom id={id} name={name} description={description} price={price} />
       </div>
     </li>
   );

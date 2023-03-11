@@ -1,25 +1,33 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Modal from '../UI/Modal';
 import styles from './Cart.module.css';
+import CartContext from '../../context/CartContext';
 
 interface CartProps {
   onHideCart: () => void;
 }
 
 function Cart({ onHideCart }: CartProps) {
-  const cartItem = [{
-    id: 'c1',
-    name: 'sushi',
-    price: 12.99,
-  }].map((item) => <li>{item.name}</li>);
-  const cartItems = <ul className={styles['cart-items']}>{cartItem}</ul>;
+  const { items, totalPrice } = useContext(CartContext);
+
+  const cartItemElements = items.map((item) => (
+    <li key={item.mealItem.id}>
+      <div>{item.mealItem.name}</div>
+      <input type="number" value={item.amount} readOnly />
+    </li>
+  ));
+  const totalAmount = items.reduce((acc, item) => acc + item.amount, 0);
 
   return (
     <Modal onHideCart={onHideCart}>
-      {cartItems}
+      <ul className={styles['cart-items']}>{cartItemElements}</ul>
       <div className={styles.total}>
         <span>Total Amount</span>
-        <span>35.62</span>
+        <span>{totalAmount}</span>
+      </div>
+      <div className={styles.total}>
+        <span>Total Price</span>
+        <span>{totalPrice.toFixed(2)}</span>
       </div>
       <div className={styles.actions}>
         <button type="button" className={styles['button--alt']} onClick={onHideCart}>Close</button>
