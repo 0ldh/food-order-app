@@ -1,9 +1,9 @@
 import React from 'react';
-import style from './MealsSummary.module.css';
+import styles from './MealsSummary.module.css';
 
 function MealsSummary() {
   return (
-    <section className={style.summary}>
+    <section className={styles.summary}>
       <h2>Delicious Food, Delivered To You</h2>
       <p>
         Choose your favorite meal from our broad selection of available meals
