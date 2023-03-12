@@ -44,21 +44,11 @@ const reducer = (state: Cart, action: ACTIONTYPE) => {
     case 'ADD': { // ADD 액션 처리
       const existingItemIndex = state.items.findIndex((item) => item.mealItem.id === action.mealItem.id); // 이미 카트에 있는 아이템의 인덱스 찾기
       const existingItem = state.items[existingItemIndex]; // 이미 카트에 있는 아이템
-      let updatedItems;
-      if (existingItem) { // 이미 카트에 있는 아이템이면
-        const updatedItem = { // 수량을 더한 새로운 아이템 생성
-          ...existingItem,
-          amount: existingItem.amount + action.amount,
-        };
-        updatedItems = [...state.items]; // 기존 아이템 배열 복사
-        updatedItems[existingItemIndex] = updatedItem; // 새로운 아이템으로 교체
-      } else { // 카트에 없는 아이템이면
-        updatedItems = state.items.concat({ // 새로운 아이템 추가
-          mealItem: action.mealItem,
-          amount: action.amount,
-        });
-      }
-      const updatedTotalPrice = state.totalPrice + action.amount * action.mealItem.price; // 총 가격 계산
+      const updatedItems = existingItem // 이미 카트에 있는 아이템이 있으면 수량만 업데이트, 없으면 새로운 아이템 추가
+        ? [...state.items].map((item) => (item.mealItem.id === action.mealItem.id
+          ? { ...item, amount: item.amount + action.amount } : item))
+        : [...state.items, { mealItem: action.mealItem, amount: action.amount }];
+      const updatedTotalPrice = state.totalPrice + action.amount * action.mealItem.price; // 총 가격 업데이트
       return {
         ...state,
         items: updatedItems,
@@ -66,17 +56,13 @@ const reducer = (state: Cart, action: ACTIONTYPE) => {
       };
     }
     case 'REMOVE': { // REMOVE 액션 처리
-      const existingItemIndex = state.items.findIndex((item) => item.mealItem.id === action.id); // 삭제할 아이템의 인덱스 찾기
-      const existingItem = state.items[existingItemIndex]; // 삭제할 아이템
-      const updatedTotalPrice = state.totalPrice - existingItem.mealItem.price; // 총 가격 계산
-      let updatedItems;
-      if (existingItem.amount === 1) { // 삭제할 아이템의 수량이 1이면
-        updatedItems = state.items.filter((item) => item.mealItem.id !== action.id); // 아이템 삭제
-      } else { // 삭제할 아이템의 수량이 1보다 크면
-        const updatedItem = { ...existingItem, amount: existingItem.amount - 1 }; // 수량을 뺀 새로운 아이템 생성
-        updatedItems = [...state.items]; // 기존 아이템 배열 복사
-        updatedItems[existingItemIndex] = updatedItem; // 새로운 아이템으로 교체
-      }
+      const existingItemIndex = state.items.findIndex((item) => item.mealItem.id === action.id); // 카트에서 삭제할 아이템의 인덱스 찾기
+      const existingItem = state.items[existingItemIndex]; // 카트에서 삭제할 아이템
+      const updatedTotalPrice = state.totalPrice - existingItem.mealItem.price; // 총 가격 업데이트
+      const updatedItems = existingItem.amount === 1 // 아이템 수량이 1이면 아이템 삭제, 아니면 수량만 업데이트
+        ? state.items.filter((item) => item.mealItem.id !== action.id)
+        : [...state.items].map((item) => (item.mealItem.id === action.id
+          ? { ...item, amount: item.amount - 1 } : item));
       return {
         ...state,
         items: updatedItems,
@@ -84,7 +70,7 @@ const reducer = (state: Cart, action: ACTIONTYPE) => {
       };
     }
     default:
-      throw new Error('Invalid action type!'); // 액션 타입이 유효하지 않으면 에러 발생
+      throw new Error('Invalid action type!');
   }
 };
 
