@@ -6,6 +6,22 @@ import CartContext from '../../context/CartContext';
 interface CartProps {
   onHideCart: () => void;
 }
+function TotalAmount({ totalAmount }: { totalAmount: number }) {
+  return (
+    <div className={styles.total}>
+      <span>Total Amount</span>
+      <span>{totalAmount}</span>
+    </div>
+  );
+}
+function TotalPrice({ totalPrice }: { totalPrice: number }) {
+  return (
+    <div className={styles.total}>
+      <span>Total Price</span>
+      <span>{totalPrice.toFixed(2)}</span>
+    </div>
+  );
+}
 
 function Cart({ onHideCart }: CartProps) {
   const { items, totalPrice } = useContext(CartContext);
@@ -21,14 +37,8 @@ function Cart({ onHideCart }: CartProps) {
   return (
     <Modal onHideCart={onHideCart}>
       <ul className={styles['cart-items']}>{cartItemElements}</ul>
-      <div className={styles.total}>
-        <span>Total Amount</span>
-        <span>{totalAmount}</span>
-      </div>
-      <div className={styles.total}>
-        <span>Total Price</span>
-        <span>{totalPrice.toFixed(2)}</span>
-      </div>
+      <TotalAmount totalAmount={totalAmount} />
+      <TotalPrice totalPrice={totalPrice} />
       <div className={styles.actions}>
         <button type="button" className={styles['button--alt']} onClick={onHideCart}>Close</button>
         <button type="button" className={styles.button}>Order</button>

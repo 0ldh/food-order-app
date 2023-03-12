@@ -1,15 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import styles from './Header.module.css';
 import meals from '../../assets/meals.jpg';
 import HeaderCartButton from './HeaderCartButton';
-import CartContext, { Cart } from '../../context/CartContext';
 
-interface HeaderCartProps {
+interface HeaderProps {
   onShowCart: () => void;
 }
 
-function Header({ onShowCart }: HeaderCartProps) {
+function Header({ onShowCart }: HeaderProps) {
   return (
     <>
       <header className={styles.header}>
