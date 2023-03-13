@@ -27,7 +27,6 @@ function MealItemFrom({ // MealItemFrom 컴포넌트 정의
   const addItemHandler = (e: React.FormEvent<HTMLFormElement>) => { // addItemHandler 함수 정의
     e.preventDefault(); // 기본 이벤트 방지
     const input = inputRef.current as unknown as HTMLInputElement; // inputRef에서 HTMLInputElement 타입으로 형변환하여 input 변수에 할당
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     if (input) input.value = String(amount); // input이 존재하면 amount 값을 문자열로 변환하여 input의 value에 할당
     addItem({ mealItem, amount }); // addItem 함수 호출
   };
