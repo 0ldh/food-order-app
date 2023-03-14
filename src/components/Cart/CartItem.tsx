@@ -11,12 +11,13 @@ interface Item {
   };
   amount: number;
 }
+
 interface CartItemProps {
   id: string;
   price: number;
   name: string;
   amount: number;
-  onAdd: ({ mealItem, amount }: Item) => void;
+  onAdd: (item: Item) => void;
   onRemove: (id: string) => void;
 }
 
@@ -30,6 +31,7 @@ function CartItem({
     const { mealItem } = targetItem;
     onAdd({ mealItem, amount: 1 });
   };
+
   const cartItemRemoveHandler = () => {
     onRemove(id);
   };
