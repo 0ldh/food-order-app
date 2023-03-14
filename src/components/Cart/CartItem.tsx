@@ -24,23 +24,14 @@ function CartItem({
   id, price, name, amount, onAdd, onRemove,
 }: CartItemProps) {
   const { items } = useContext(CartContext);
-  console.log(items);
-
-  const mealItem = {
-    id: 'm1',
-    name: 'sushi',
-    description: 'string',
-    price: 123.9,
-  };
 
   const cartItemAddHandler = () => {
-    onAdd({
-      mealItem,
-      amount: 1,
-    });
+    const targetItem = items.find((item) => item.mealItem.id === id) as Item;
+    const { mealItem } = targetItem;
+    onAdd({ mealItem, amount: 1 });
   };
   const cartItemRemoveHandler = () => {
-    // onRemove();
+    onRemove(id);
   };
 
   return (
@@ -56,8 +47,8 @@ function CartItem({
         </div>
       </div>
       <div className={styles.actions}>
-        <button type="button" onClick={cartItemAddHandler}>−</button>
-        <button type="button" onClick={cartItemRemoveHandler}>+</button>
+        <button type="button" onClick={cartItemRemoveHandler}>−</button>
+        <button type="button" onClick={cartItemAddHandler}>+</button>
       </div>
     </li>
   );
