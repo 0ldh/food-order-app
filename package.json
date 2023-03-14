@@ -10,6 +10,7 @@
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "@types/redux": "^3.6.0",
     "eslint": "^8.0.1",
     "eslint-config-bb8dd": "^1.0.53",
     "normalize.css": "^8.0.1",
@@ -23,7 +24,6 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
