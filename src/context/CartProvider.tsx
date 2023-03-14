@@ -97,7 +97,6 @@ function CartProvider({ children }: { children: React.ReactNode }) {
       mealItem,
       amount,
     });
-    console.log('ADD');
   };
 
   const removeItemFromCartHandler = (id: string) => { // 카트에서 아이템 삭제하는 핸들러 함수
@@ -105,7 +104,6 @@ function CartProvider({ children }: { children: React.ReactNode }) {
       type: 'REMOVE',
       id,
     });
-    console.log('REMOVE');
   };
 
   const cartContext = useMemo<Cart>(() => ({ // 카트 컨텍스트 생성
