@@ -11,18 +11,20 @@ function HeaderCartButton({ onShowCart }: HeaderCartButtonProps) {
   const { items } = useContext(CartContext);
   const [btnAni, setBtnAni] = useState<boolean>(false);
   const cartCount = items.length;
+
   const btnAniClass = `${styles.button} ${btnAni ? styles.bump : ''}`;
+
   useEffect(() => {
     if (items.length === 0) return;
+
     setBtnAni(true);
+
     const timer = setTimeout(() => {
       setBtnAni(false);
     }, 300);
 
     // eslint-disable-next-line consistent-return
-    return () => {
-      clearTimeout(timer);
-    };
+    return () => clearTimeout(timer);
   }, [items]);
 
   return (
