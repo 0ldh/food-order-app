@@ -56,4 +56,4 @@ function CartItem({
   );
 }
 
-export default React.memo(CartItem);
+export default CartItem;
