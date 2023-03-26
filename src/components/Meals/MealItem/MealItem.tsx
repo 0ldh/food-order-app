@@ -28,4 +28,4 @@ function MealItem({
   );
 }
 
-export default MealItem;
+export default React.memo(MealItem);

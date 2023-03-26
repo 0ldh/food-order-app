@@ -56,4 +56,4 @@ function MealItemFrom({ // MealItemFrom 컴포넌트 정의
   );
 }
 
-export default MealItemFrom; // MealItemFrom 컴포넌트 내보내기
+export default React.memo(MealItemFrom); // MealItemFrom 컴포넌트 내보내기
