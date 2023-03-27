@@ -1,4 +1,4 @@
-import React, { useMemo, useReducer } from 'react';
+import React, { useCallback, useMemo, useReducer } from 'react';
 import CartContext, { Cart } from './CartContext';
 
 // 액션 타입 정의
@@ -88,31 +88,30 @@ const reducer = (state: Cart, action: ACTIONTYPE) => {
   }
 };
 
+// 카트 컨텍스트를 제공하는 컴포넌트
 function CartProvider({ children }: { children: React.ReactNode }) {
-  const [cartState, dispatchCartAction] = useReducer(reducer, defaultCart); // 리듀서 함수와 초기 상태로 카트 상태와 디스패치 함수 생성
+  // useReducer를 사용하여 카트 상태와 디스패치 함수를 가져옴
+  const [cartState, dispatchCartAction] = useReducer(reducer, defaultCart);
 
-  const addItemToCartHandler = ({ mealItem, amount }: AddItemProps) => { // 카트에 아이템 추가하는 핸들러 함수
-    dispatchCartAction({
-      type: 'ADD',
-      mealItem,
-      amount,
-    });
-  };
+  // 카트에 아이템을 추가하는 핸들러 함수
+  const addItemToCartHandler = useCallback(({ mealItem, amount }: AddItemProps) => {
+    dispatchCartAction({ type: 'ADD', mealItem, amount });
+  }, []);
 
-  const removeItemFromCartHandler = (id: string) => { // 카트에서 아이템 삭제하는 핸들러 함수
-    dispatchCartAction({
-      type: 'REMOVE',
-      id,
-    });
-  };
+  // 카트에서 아이템을 제거하는 핸들러 함수
+  const removeItemFromCartHandler = useCallback((id: string) => {
+    dispatchCartAction({ type: 'REMOVE', id });
+  }, []);
 
-  const cartContext = useMemo<Cart>(() => ({ // 카트 컨텍스트 생성
+  // useMemo를 사용하여 카트 컨텍스트 객체를 생성
+  const cartContext = useMemo(() => ({
     ...cartState,
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
   }), [cartState, addItemToCartHandler, removeItemFromCartHandler]);
 
-  return <CartContext.Provider value={cartContext}>{children}</CartContext.Provider>; // 카트 컨텍스트 제공
+  // 카트 컨텍스트를 제공하는 Provider 컴포넌트를 반환
+  return <CartContext.Provider value={cartContext}>{children}</CartContext.Provider>;
 }
 
 export default CartProvider;
