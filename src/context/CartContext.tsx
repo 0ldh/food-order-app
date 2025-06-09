@@ -14,6 +14,7 @@ export interface Cart {
   totalPrice: number;
   addItem: ({ mealItem, amount }: Item) => void;
   removeItem: (id: string) => void;
+  clearCart: () => void;
 }
 
 const defaultCart: Cart = {
@@ -21,6 +22,7 @@ const defaultCart: Cart = {
   totalPrice: 0,
   addItem: () => {},
   removeItem: () => {},
+  clearCart: () => {},
 };
 
 const CartContext = createContext(defaultCart);

@@ -1,0 +1,93 @@
+.form {
+  margin: 1rem 0;
+  padding: 1rem;
+}
+
+.control {
+  margin-bottom: 1rem;
+}
+
+.control label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #363636;
+}
+
+.control input,
+.control textarea {
+  font: inherit;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+.control input:focus,
+.control textarea:focus {
+  outline: none;
+  border-color: #8a2b06;
+  box-shadow: 0 0 0 2px rgba(138, 43, 6, 0.1);
+}
+
+.control input.invalid {
+  border-color: #ca3e51;
+  background-color: #ffd6db;
+}
+
+.control textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.error {
+  color: #ca3e51;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.actions button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  border-radius: 25px;
+  padding: 0.5rem 2rem;
+}
+
+.actions button:hover {
+  background-color: #ffe3dc;
+}
+
+.actions button:active {
+  background-color: #ffe3dc;
+  border-color: #ffe3dc;
+  color: #365314;
+}
+
+.button--alt {
+  background-color: transparent;
+  border: 1px solid #8a2b06;
+  color: #8a2b06;
+}
+
+.button {
+  background-color: #8a2b06;
+  border: 1px solid #8a2b06;
+  color: white;
+}
+
+.button:hover,
+.button:active {
+  background-color: #641e03;
+  border-color: #641e03;
+  color: white;
+}
