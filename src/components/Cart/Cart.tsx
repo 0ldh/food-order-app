@@ -35,11 +35,13 @@ function Cart({ onHideCart }: CartProps) { // Cart 컴포넌트를 정의
   const [isCheckingOut, setIsCheckingOut] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [orderSuccess, setOrderSuccess] = useState<boolean>(false);
+  const [orderError, setOrderError] = useState<string>('');
 
   const totalAmount = items.reduce((acc, item) => acc + item.amount, 0); // items 배열의 수량을 합산하여 totalAmount 변수에 할당
 
   const handleOrderClick = () => {
     setIsCheckingOut(true);
+    setOrderError(''); // Clear any previous errors
   };
 
   const handleCheckoutCancel = () => {
@@ -48,10 +50,20 @@ function Cart({ onHideCart }: CartProps) { // Cart 컴포넌트를 정의
 
   const handleOrderConfirm = async (orderData: OrderData) => {
     setIsSubmitting(true);
+    setOrderError(''); // Clear any previous errors
     
     try {
       // 실제 주문 API 호출을 시뮬레이션
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve, reject) => {
+        setTimeout(() => {
+          // 10% 확률로 실패 시뮬레이션
+          if (Math.random() < 0.1) {
+            reject(new Error('Network error'));
+          } else {
+            resolve(undefined);
+          }
+        }, 1000);
+      });
       
       // 주문 성공
       clearCart();
@@ -59,8 +71,13 @@ function Cart({ onHideCart }: CartProps) { // Cart 컴포넌트를 정의
       setIsCheckingOut(false);
     } catch (error) {
       console.error('Order failed:', error);
-    } finally {
+      setOrderError('주문 처리 중 오류가 발생했습니다. 다시 시도해주세요.');
       setIsSubmitting(false);
+      return; // Don't proceed to success state
+    } finally {
+      if (!orderError) {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -124,10 +141,24 @@ function Cart({ onHideCart }: CartProps) { // Cart 컴포넌트를 정의
       )}
       
       {isCheckingOut && (
-        <Checkout 
-          onCancel={handleCheckoutCancel}
-          onConfirm={handleOrderConfirm}
-        />
+        <>
+          <Checkout 
+            onCancel={handleCheckoutCancel}
+            onConfirm={handleOrderConfirm}
+          />
+          {orderError && (
+            <div className={styles.error}>
+              <p>{orderError}</p>
+              <button 
+                type="button" 
+                className={styles['button--alt']} 
+                onClick={() => setOrderError('')}
+              >
+                Close
+              </button>
+            </div>
+          )}
+        </>
       )}
       
       {isSubmitting && (

@@ -1,6 +1,27 @@
 import React, { useState } from 'react';
 import styles from './Checkout.module.css';
 
+// Validation constants
+const VALIDATION_CONSTANTS = {
+  MIN_NAME_LENGTH: 2,
+  MIN_PHONE_LENGTH: 10,
+  MIN_ADDRESS_LENGTH: 10,
+};
+
+// Validation patterns
+const VALIDATION_PATTERNS = {
+  PHONE: /^[\+]?[1-9][\d]{0,15}$/,
+  EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+};
+
+// Error messages
+const ERROR_MESSAGES = {
+  NAME_TOO_SHORT: `Name must be at least ${VALIDATION_CONSTANTS.MIN_NAME_LENGTH} characters`,
+  PHONE_INVALID: 'Please enter a valid phone number format',
+  ADDRESS_TOO_SHORT: 'Please enter a complete address',
+  EMAIL_INVALID: 'Please enter a valid email address',
+};
+
 interface CheckoutProps {
   onCancel: () => void;
   onConfirm: (orderData: OrderData) => void;
@@ -28,16 +49,26 @@ function Checkout({ onCancel, onConfirm }: CheckoutProps) {
   const validateForm = (): boolean => {
     const newErrors: Partial<OrderData> = {};
 
-    if (formData.name.trim().length < 2) {
-      newErrors.name = 'Name must be at least 2 characters';
+    // Name validation
+    if (formData.name.trim().length < VALIDATION_CONSTANTS.MIN_NAME_LENGTH) {
+      newErrors.name = ERROR_MESSAGES.NAME_TOO_SHORT;
     }
 
-    if (!formData.phone.trim() || formData.phone.trim().length < 10) {
-      newErrors.phone = 'Please enter a valid phone number';
+    // Phone validation with regex
+    const phoneValue = formData.phone.trim();
+    if (!phoneValue || phoneValue.length < VALIDATION_CONSTANTS.MIN_PHONE_LENGTH || !VALIDATION_PATTERNS.PHONE.test(phoneValue)) {
+      newErrors.phone = ERROR_MESSAGES.PHONE_INVALID;
     }
 
-    if (formData.address.trim().length < 10) {
-      newErrors.address = 'Please enter a complete address';
+    // Address validation
+    if (formData.address.trim().length < VALIDATION_CONSTANTS.MIN_ADDRESS_LENGTH) {
+      newErrors.address = ERROR_MESSAGES.ADDRESS_TOO_SHORT;
+    }
+
+    // Email validation (only if provided)
+    const emailValue = formData.email?.trim();
+    if (emailValue && !VALIDATION_PATTERNS.EMAIL.test(emailValue)) {
+      newErrors.email = ERROR_MESSAGES.EMAIL_INVALID;
     }
 
     setErrors(newErrors);
@@ -78,8 +109,10 @@ function Checkout({ onCancel, onConfirm }: CheckoutProps) {
           value={formData.name}
           onChange={handleInputChange}
           className={errors.name ? styles.invalid : ''}
+          aria-describedby={errors.name ? 'name-error' : undefined}
+          required
         />
-        {errors.name && <p className={styles.error}>{errors.name}</p>}
+        {errors.name && <p id="name-error" className={styles.error}>{errors.name}</p>}
       </div>
 
       <div className={styles.control}>
@@ -91,8 +124,10 @@ function Checkout({ onCancel, onConfirm }: CheckoutProps) {
           value={formData.phone}
           onChange={handleInputChange}
           className={errors.phone ? styles.invalid : ''}
+          aria-describedby={errors.phone ? 'phone-error' : undefined}
+          required
         />
-        {errors.phone && <p className={styles.error}>{errors.phone}</p>}
+        {errors.phone && <p id="phone-error" className={styles.error}>{errors.phone}</p>}
       </div>
 
       <div className={styles.control}>
@@ -104,8 +139,10 @@ function Checkout({ onCancel, onConfirm }: CheckoutProps) {
           value={formData.address}
           onChange={handleInputChange}
           className={errors.address ? styles.invalid : ''}
+          aria-describedby={errors.address ? 'address-error' : undefined}
+          required
         />
-        {errors.address && <p className={styles.error}>{errors.address}</p>}
+        {errors.address && <p id="address-error" className={styles.error}>{errors.address}</p>}
       </div>
 
       <div className={styles.control}>
@@ -116,7 +153,10 @@ function Checkout({ onCancel, onConfirm }: CheckoutProps) {
           name="email"
           value={formData.email}
           onChange={handleInputChange}
+          className={errors.email ? styles.invalid : ''}
+          aria-describedby={errors.email ? 'email-error' : undefined}
         />
+        {errors.email && <p id="email-error" className={styles.error}>{errors.email}</p>}
       </div>
 
       <div className={styles.control}>

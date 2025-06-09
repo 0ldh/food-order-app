@@ -90,3 +90,32 @@
   font-weight: bold;
   color: #8a2b06;
 }
+
+.error {
+  background-color: #ffd6db;
+  border: 1px solid #ca3e51;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.error p {
+  color: #ca3e51;
+  font-weight: bold;
+  margin: 0 0 1rem 0;
+}
+
+.error button {
+  background-color: transparent;
+  border: 1px solid #ca3e51;
+  color: #ca3e51;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.error button:hover {
+  background-color: #ca3e51;
+  color: white;
+}
