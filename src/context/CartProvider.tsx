@@ -16,9 +16,12 @@ type REMOVE = {
   type: 'REMOVE';
   id: string;
 };
+type CLEAR = {
+  type: 'CLEAR';
+};
 
 // 액션 타입 유니온 타입으로 정의
-type ACTIONTYPE = ADD | REMOVE;
+type ACTIONTYPE = ADD | REMOVE | CLEAR;
 
 interface AddItemProps {
   mealItem: {
@@ -36,6 +39,7 @@ const defaultCart: Cart = {
   totalPrice: 0,
   addItem: () => {},
   removeItem: () => {},
+  clearCart: () => {},
 };
 
 // 리듀서 함수
@@ -83,6 +87,14 @@ const reducer = (state: Cart, action: ACTIONTYPE) => {
       };
     }
 
+    case 'CLEAR': { // CLEAR 액션 처리
+      return {
+        ...state,
+        items: [],
+        totalPrice: 0,
+      };
+    }
+
     default:
       throw new Error('Invalid action type!');
   }
@@ -103,12 +115,18 @@ function CartProvider({ children }: { children: React.ReactNode }) {
     dispatchCartAction({ type: 'REMOVE', id });
   }, []);
 
+  // 카트를 초기화하는 핸들러 함수
+  const clearCartHandler = useCallback(() => {
+    dispatchCartAction({ type: 'CLEAR' });
+  }, []);
+
   // useMemo를 사용하여 카트 컨텍스트 객체를 생성
   const cartContext = useMemo(() => ({
     ...cartState,
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
-  }), [cartState, addItemToCartHandler, removeItemFromCartHandler]);
+    clearCart: clearCartHandler,
+  }), [cartState, addItemToCartHandler, removeItemFromCartHandler, clearCartHandler]);
 
   // 카트 컨텍스트를 제공하는 Provider 컴포넌트를 반환
   return <CartContext.Provider value={cartContext}>{children}</CartContext.Provider>;
