@@ -51,7 +51,7 @@ function Cart({ onHideCart }: CartProps) { // Cart 컴포넌트를 정의
   const handleOrderConfirm = async (orderData: OrderData) => {
     setIsSubmitting(true);
     setOrderError(''); // Clear any previous errors
-    
+
     try {
       // 실제 주문 API 호출을 시뮬레이션
       await new Promise((resolve, reject) => {
@@ -64,7 +64,7 @@ function Cart({ onHideCart }: CartProps) { // Cart 컴포넌트를 정의
           }
         }, 1000);
       });
-      
+
       // 주문 성공
       clearCart();
       setOrderSuccess(true);
@@ -139,19 +139,19 @@ function Cart({ onHideCart }: CartProps) { // Cart 컴포넌트를 정의
           </div>
         </>
       )}
-      
+
       {isCheckingOut && (
         <>
-          <Checkout 
+          <Checkout
             onCancel={handleCheckoutCancel}
             onConfirm={handleOrderConfirm}
           />
           {orderError && (
             <div className={styles.error}>
               <p>{orderError}</p>
-              <button 
-                type="button" 
-                className={styles['button--alt']} 
+              <button
+                type="button"
+                className={styles['button--alt']}
                 onClick={() => setOrderError('')}
               >
                 Close
@@ -160,7 +160,7 @@ function Cart({ onHideCart }: CartProps) { // Cart 컴포넌트를 정의
           )}
         </>
       )}
-      
+
       {isSubmitting && (
         <div className={styles.submitting}>
           <p>Submitting order...</p>
